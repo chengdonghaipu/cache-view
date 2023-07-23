@@ -23,6 +23,10 @@ type TypedSimpleChanges<T> = {
 export class CacheViewComponent implements OnChanges {
   private activated: ComponentRef<any> | null = null;
   public snapshot?: ActivatedCacheSnapshot;
+
+  @Input() set defaultActivate(value: string) {
+    this.activateByPath(value);
+  }
   path = '';
   @Input() params: Record<string, string> = {};
   config: CacheConfig[] = inject(CONFIG, {optional: true})?.flat() ?? []
@@ -68,6 +72,7 @@ export class CacheViewComponent implements OnChanges {
     const config: CacheConfig = (this.config.find(value => value.path === this.path) ?? {}) as unknown as CacheConfig;
     this.snapshot = new ActivatedCacheSnapshot(this.path, this.params, config.data || {});
 
+    console.log(this.injector);
     const injector = Injector.create({
       providers: [
         { provide: ActivatedCacheSnapshot, useValue: this.snapshot },
