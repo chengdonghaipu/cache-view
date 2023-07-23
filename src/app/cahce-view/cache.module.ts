@@ -2,18 +2,21 @@ import {InjectionToken, ModuleWithProviders, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {CacheViewComponent} from "./cache-view.component";
 import {CacheConfig, CONFIG} from "./token";
+import { ViewLinkDirective } from './view-link.directive';
 
 
 
 @NgModule({
   declarations: [
-    CacheViewComponent
+    CacheViewComponent,
+    ViewLinkDirective
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    CacheViewComponent
+    CacheViewComponent,
+    ViewLinkDirective
   ]
 })
 export class CacheModule {

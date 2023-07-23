@@ -23,9 +23,14 @@ type TypedSimpleChanges<T> = {
 export class CacheViewComponent implements OnChanges {
   private activated: ComponentRef<any> | null = null;
   public snapshot?: ActivatedCacheSnapshot;
-  @Input() path = '';
+  path = '';
   @Input() params: Record<string, string> = {};
   config: CacheConfig[] = inject(CONFIG, {optional: true})?.flat() ?? []
+
+  activateByPath(path: string) {
+    this.path = path;
+    this.stateChange()
+  }
 
   constructor(private readonly viewContainerRef: ViewContainerRef,
               private readonly injector: Injector,
@@ -39,11 +44,11 @@ export class CacheViewComponent implements OnChanges {
     if (changes.params) {
     }
     if (changes.path || changes.params) {
-      if (changes.path) {
-        const currentValue = changes.path.currentValue;
-        // console.log('Input Data changed:', currentValue);
-        this.stateChange()
-      }
+      // if (changes.path) {
+      //   const currentValue = changes.path.currentValue;
+      //   // console.log('Input Data changed:', currentValue);
+      //   this.stateChange()
+      // }
     }
   }
 
