@@ -6,4 +6,4 @@ export interface CacheConfig {
   data?: Record<string, any>
 }
 
-export const CONFIG = new InjectionToken<CacheConfig[][]>('CACHE_VIEW_CONFIG');
+export const CONFIG = new InjectionToken<CacheConfig[]>('CACHE_VIEW_CONFIG');

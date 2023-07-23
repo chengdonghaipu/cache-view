@@ -29,7 +29,7 @@ export class CacheViewComponent implements OnChanges {
   }
   path = '';
   @Input() params: Record<string, string> = {};
-  config: CacheConfig[] = inject(CONFIG, {optional: true})?.flat() ?? []
+  config: CacheConfig[] = inject(CONFIG, {optional: true}) ?? []
 
   activateByPath(path: string) {
     this.path = path;
@@ -40,7 +40,9 @@ export class CacheViewComponent implements OnChanges {
               private readonly injector: Injector,
               private readonly cacheStrategy: CacheViewStrategyService) {
     // console.log(this.config);
-
+    console.log('injector CacheViewComponent');
+    console.log(viewContainerRef.parentInjector)
+    Object.assign(injector, {hh: '33'})
   }
 
   ngOnChanges(changes: TypedSimpleChanges<CacheViewComponent>): void {
@@ -72,7 +74,6 @@ export class CacheViewComponent implements OnChanges {
     const config: CacheConfig = (this.config.find(value => value.path === this.path) ?? {}) as unknown as CacheConfig;
     this.snapshot = new ActivatedCacheSnapshot(this.path, this.params, config.data || {});
 
-    console.log(this.injector);
     const injector = Injector.create({
       providers: [
         { provide: ActivatedCacheSnapshot, useValue: this.snapshot },

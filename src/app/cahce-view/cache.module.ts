@@ -20,12 +20,12 @@ import { ViewLinkDirective } from './view-link.directive';
   ]
 })
 export class CacheModule {
-  static forRoot(config: CacheConfig[]): ModuleWithProviders<CacheModule> {
-    return {
-      ngModule: CacheModule,
-      providers: [
-        {provide: CONFIG, multi: true, useValue: config}
-      ]
-    }
-  }
+  // static forRoot(config: CacheConfig[]): ModuleWithProviders<CacheModule> {
+  //   return {
+  //     ngModule: CacheModule,
+  //     providers: [
+  //       {provide: CONFIG, multi: true, useValue: config}
+  //     ]
+  //   }
+  // }
 }

@@ -15,22 +15,7 @@ import {Tab2Component} from "./tab2.component";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CacheModule.forRoot([
-      {
-        path: 'tab1',
-        component: Tab1Component,
-        data: {
-          name: 'tab1'
-        }
-      },
-      {
-        path: 'tab2',
-        component: Tab2Component,
-        data: {
-          name: 'tab2'
-        }
-      }
-    ])
+    CacheModule
   ],
   providers: [],
   bootstrap: [AppComponent],
