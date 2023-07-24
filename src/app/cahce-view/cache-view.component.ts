@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import {ActivatedCacheSnapshot, CacheViewStrategyService, DetachedCacheHandle} from "../cache-view-strategy.service";
 import {CacheConfig, CONFIG} from "./token";
+import {BehaviorSubject, Subject} from "rxjs";
 
 type TypedSimpleChanges<T> = {
   [P in keyof T]?: SimpleChange;
@@ -25,7 +26,7 @@ export const PARENT = new InjectionToken<{view: CacheViewComponent}>('CACHE_VIEW
 export class CacheViewComponent implements OnChanges {
   private activated: ComponentRef<any> | null = null;
   public snapshot?: ActivatedCacheSnapshot;
-
+  activePath = new BehaviorSubject<string>('');
   @Input() set defaultActivate(value: string) {
     this.activateByPath(value);
   }
@@ -86,7 +87,9 @@ export class CacheViewComponent implements OnChanges {
     this.activated = this.viewContainerRef.createComponent(config.component, {
       injector,
       index: this.viewContainerRef.length
-    })
+    });
+
+    this.activePath.next(this.path);
   }
 
   private stateChange() {
@@ -102,6 +105,7 @@ export class CacheViewComponent implements OnChanges {
         this.activated = stored.componentRef;
         this.snapshot = snapshot;
         this.viewContainerRef.insert(stored.componentRef.hostView);
+        this.activePath.next(this.path);
       } else {
         this.detachAndStore();
         this.activateWith()
