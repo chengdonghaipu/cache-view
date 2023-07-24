@@ -1,6 +1,6 @@
 import {
   Component, ComponentRef,
-  inject,
+  inject, InjectionToken,
   Injector,
   Input,
   OnChanges,
@@ -13,6 +13,8 @@ import {CacheConfig, CONFIG} from "./token";
 type TypedSimpleChanges<T> = {
   [P in keyof T]?: SimpleChange;
 };
+
+export const PARENT = new InjectionToken<{view: CacheViewComponent}>('CACHE_VIEW_PARENT');
 
 @Component({
   selector: 'app-cache-view',
@@ -31,6 +33,8 @@ export class CacheViewComponent implements OnChanges {
   @Input() params: Record<string, string> = {};
   config: CacheConfig[] = inject(CONFIG, {optional: true}) ?? []
 
+  #parent = inject(PARENT)
+
   activateByPath(path: string) {
     this.path = path;
     this.stateChange()
@@ -39,10 +43,8 @@ export class CacheViewComponent implements OnChanges {
   constructor(private readonly viewContainerRef: ViewContainerRef,
               private readonly injector: Injector,
               private readonly cacheStrategy: CacheViewStrategyService) {
+    this.#parent.view = this
     // console.log(this.config);
-    console.log('injector CacheViewComponent');
-    console.log(viewContainerRef.parentInjector)
-    Object.assign(injector, {hh: '33'})
   }
 
   ngOnChanges(changes: TypedSimpleChanges<CacheViewComponent>): void {

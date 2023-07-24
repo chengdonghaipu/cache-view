@@ -1,6 +1,6 @@
-import {InjectionToken, ModuleWithProviders, NgModule} from '@angular/core';
+import {InjectionToken, ModuleWithProviders, NgModule, Provider} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {CacheViewComponent} from "./cache-view.component";
+import {CacheViewComponent, PARENT} from "./cache-view.component";
 import {CacheConfig, CONFIG} from "./token";
 import { ViewLinkDirective } from './view-link.directive';
 
@@ -24,8 +24,16 @@ export class CacheModule {
   //   return {
   //     ngModule: CacheModule,
   //     providers: [
-  //       {provide: CONFIG, multi: true, useValue: config}
+  //       {provide: CONFIG, useValue: config},
+  //       {provide: PARENT, useValue: {}},
   //     ]
   //   }
   // }
+
+  static providers(config: CacheConfig[]): Provider[] {
+    return [
+      {provide: CONFIG, useValue: config},
+      {provide: PARENT, useValue: {}},
+    ]
+  }
 }
